@@ -1,0 +1,52 @@
+import numpy as np
+import pandas as pd
+
+np.random.seed(42)
+n = 2000
+
+crops = ['Rice', 'Wheat', 'Maize', 'Soybean', 'Cotton', 'Sugarcane', 'Potato', 'Tomato']
+regions = ['North', 'South', 'East', 'West', 'Central']
+soil_types = ['Loamy', 'Sandy', 'Clay', 'Silt', 'Peaty']
+seasons = ['Kharif', 'Rabi', 'Zaid']
+
+crop_base = {'Rice': 4.2, 'Wheat': 3.5, 'Maize': 5.0, 'Soybean': 2.8,
+             'Cotton': 1.9, 'Sugarcane': 68.0, 'Potato': 22.0, 'Tomato': 28.0}
+soil_mult = {'Loamy': 1.15, 'Sandy': 0.85, 'Clay': 0.95, 'Silt': 1.05, 'Peaty': 1.10}
+
+data = []
+for _ in range(n):
+    crop = np.random.choice(crops)
+    region = np.random.choice(regions)
+    soil = np.random.choice(soil_types)
+    season = np.random.choice(seasons)
+    year = np.random.randint(2010, 2024)
+    rainfall = np.random.uniform(300, 1800)
+    temperature = np.random.uniform(15, 38)
+    humidity = np.random.uniform(40, 90)
+    fertilizer = np.random.uniform(50, 300)
+    pesticide = np.random.uniform(0.5, 5.0)
+    area = np.random.uniform(0.5, 10.0)
+
+    base = crop_base[crop]
+    sm = soil_mult[soil]
+    rain_factor = 1 + 0.0003 * (rainfall - 900)
+    temp_opt = 27
+    temp_factor = 1 - 0.008 * abs(temperature - temp_opt)
+    fert_factor = 1 + 0.0015 * (fertilizer - 150)
+    noise = np.random.normal(1.0, 0.08)
+    yld = round(base * sm * rain_factor * temp_factor * fert_factor * noise, 2)
+    yld = max(0.5, yld)
+
+    data.append([crop, region, soil, season, year, round(rainfall, 1),
+                 round(temperature, 1), round(humidity, 1), round(fertilizer, 1),
+                 round(pesticide, 2), round(area, 2), yld])
+
+df = pd.DataFrame(data, columns=[
+    'Crop_Type', 'Region', 'Soil_Type', 'Season', 'Year',
+    'Rainfall_mm', 'Temperature_C', 'Humidity_pct', 'Fertilizer_kg_ha',
+    'Pesticide_kg_ha', 'Area_ha', 'Yield_tons_ha'
+])
+df.to_csv('crop_yield.csv', index=False)
+print(f"Dataset created: {len(df)} rows")
+print(df.head())
+print(df.describe())
