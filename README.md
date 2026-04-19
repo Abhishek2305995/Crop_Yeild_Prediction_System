@@ -3,10 +3,10 @@
 A complete end-to-end Machine Learning system that predicts agricultural crop yield based on environmental and farming inputs.
 
 ## 👤 Project Details
-- **Name:** [Your Name]
-- **Roll Number:** [Your Roll Number]
-- **Batch/Program:** Data Engineering
-- **Project:** Crop Yield Prediction System
+- Name:Abhishek Mishra
+- Roll Number:2305995
+- Batch/Program:Data Engineering
+- Project: Crop Yield Prediction System
 
 ## 📌 Problem Statement
 Traditional farming decisions rely on experience and intuition, often resulting in suboptimal yields. This system leverages Machine Learning to predict crop yield (tons per hectare) using climate, soil, and agricultural input data, enabling data-driven precision agriculture.
